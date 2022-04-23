@@ -92,7 +92,7 @@ class MainWindow(QMainWindow):
         self.create_gloassary_for_chances(620, 450)
 
     def get_stats_table(self):
-        self.stats_table = FifthWindow()
+        self.stats_table = ShowStatistics()
         self.stats_table.show()
 
     def create_gloassary_for_chances(self, x, y):
@@ -217,7 +217,7 @@ class MainWindow(QMainWindow):
         self.label_get_chance_on_preflop.setGeometry(x - 20, y + 180, 350, 50)
 
     def choice_card(self):
-        self.fw = FourthWindow()
+        self.fw = MapSelection()
         self.fw.exec()
         self.result = self.fw.result
         self.count_cards_at_user = 0
@@ -399,7 +399,7 @@ class MainWindow(QMainWindow):
         button.setIconSize(QtCore.QSize(100, 200))
 
     def error_choice_card(self):
-        QMessageBox.critical(self, "Ошибка выбора карты", 
+        QMessageBox.critical(self, "Ошибка выбора карты",
                                    "Данная карта уже была выбрана.", QMessageBox.Ok)
 
     def define_a_map(self, text):
@@ -493,11 +493,11 @@ class MainWindow(QMainWindow):
                                                           ;;Все файлы (*)')[0]
         try:
             if '.csv' not in self.designations_filename:
-                QMessageBox.critical(self, "Ошибка загрузки категорий", 
+                QMessageBox.critical(self, "Ошибка загрузки категорий",
                                      "Данный файл не содержит категорий карт.", QMessageBox.Ok)
                 raise FileNotFoundError
             elif self.designations_filename[len(self.designations_filename) - 4::] != '.csv':
-                QMessageBox.critical(self, "Ошибка загрузки категорий", 
+                QMessageBox.critical(self, "Ошибка загрузки категорий",
                                      "Данный файл не содержит категорий карт.", QMessageBox.Ok)
                 raise FileNotFoundError
             self.our_designations = Table(DIGNITIES).open_table(
@@ -505,7 +505,7 @@ class MainWindow(QMainWindow):
                                                     self.colors_filename
                                                     )[0]
             if self.our_designations is None:
-                QMessageBox.critical(self, "Ошибка загрузки категорий", 
+                QMessageBox.critical(self, "Ошибка загрузки категорий",
                                      "Данный файл не содержит категорий карт.", QMessageBox.Ok)
                 raise FileNotFoundError
             try:
@@ -514,7 +514,7 @@ class MainWindow(QMainWindow):
                     raise KeyError
                 self.change_color_on_buttons()
             except KeyError:
-                QMessageBox.critical(self, "Ошибка загрузки категорий", 
+                QMessageBox.critical(self, "Ошибка загрузки категорий",
                                      "Данный файл не содержит категорий карт.", QMessageBox.Ok)
         except FileNotFoundError:
             pass
@@ -525,11 +525,11 @@ class MainWindow(QMainWindow):
                                                            ;;Все файлы (*)')[0]
         try:
             if '.csv' not in self.colors_filename:
-                QMessageBox.critical(self, "Ошибка загрузки цветов категорий", 
+                QMessageBox.critical(self, "Ошибка загрузки цветов категорий",
                                      "Данный файл не содержит цветов категорий.", QMessageBox.Ok)
                 raise FileNotFoundError
             elif self.colors_filename[len(self.colors_filename) - 4::] != '.csv':
-                QMessageBox.critical(self, "Ошибка загрузки цветов категорий", 
+                QMessageBox.critical(self, "Ошибка загрузки цветов категорий",
                                      "Данный файл не содержит цветов категорий.", QMessageBox.Ok)
                 raise FileNotFoundError
             self.our_colors = Table(DIGNITIES).open_table(
@@ -537,7 +537,7 @@ class MainWindow(QMainWindow):
                                                           self.colors_filename
                                                          )[1]
             if self.our_colors is None:
-                QMessageBox.critical(self, "Ошибка загрузки цветов категорий", 
+                QMessageBox.critical(self, "Ошибка загрузки цветов категорий",
                                      "Данный файл не содержит цветов категорий.", QMessageBox.Ok)
                 raise FileNotFoundError
             try:
@@ -547,7 +547,7 @@ class MainWindow(QMainWindow):
                 self.change_color_on_buttons()
                 self.change_glossary()
             except KeyError:
-                QMessageBox.critical(self, "Ошибка загрузки цветов категорий", 
+                QMessageBox.critical(self, "Ошибка загрузки цветов категорий",
                                      "Данный файл не содержит цветов категорий.", QMessageBox.Ok)
         except FileNotFoundError:
             pass
@@ -564,11 +564,11 @@ class MainWindow(QMainWindow):
         self.change_glossary()
 
     def do_change_table(self):
-        self.sw = SecondWindow(self.colors_filename)
+        self.sw = ChangeCategoryCards(self.colors_filename)
         self.sw.show()
 
     def change_colors(self):
-        self.tw = ThirdWindow()
+        self.tw = ChangeColorForCategory()
         self.tw.show()
 
     def change_color_on_buttons(self):
@@ -586,7 +586,7 @@ class MainWindow(QMainWindow):
                                                     {self.color_for_button}; color: black;}}')
 
 
-class SecondWindow(QWidget):
+class ChangeCategoryCards(QWidget):
     def __init__(self, colors_filename):
         super().__init__()
 
@@ -634,11 +634,11 @@ class SecondWindow(QWidget):
                                                           ;;Все файлы (*)')[0]
         try:
             if '.csv' not in self.table_filename:
-                QMessageBox.critical(self, "Ошибка загрузки категорий", 
+                QMessageBox.critical(self, "Ошибка загрузки категорий",
                                      "Данный файл не содержит категорий карт.", QMessageBox.Ok)
                 raise FileNotFoundError
             elif self.table_filename[len(self.table_filename)::] != '.csv':
-                QMessageBox.critical(self, "Ошибка загрузки категорий", 
+                QMessageBox.critical(self, "Ошибка загрузки категорий",
                                      "Данный файл не содержит категорий карт.", QMessageBox.Ok)
                 raise FileNotFoundError
             self.our_designations = Table(DIGNITIES).open_table(
@@ -646,7 +646,7 @@ class SecondWindow(QWidget):
                                                                 self.colors_filename
                                                                )[0]
             if self.our_designations is None:
-                QMessageBox.critical(self, "Ошибка загрузки категорий", 
+                QMessageBox.critical(self, "Ошибка загрузки категорий",
                                      "Данный файл не содержит категорий карт.", QMessageBox.Ok)
                 raise FileNotFoundError
             try:
@@ -655,7 +655,7 @@ class SecondWindow(QWidget):
                     raise KeyError
                 self.create_table(50, 30)
             except KeyError:
-                QMessageBox.critical(self, "Ошибка загрузки категорий", 
+                QMessageBox.critical(self, "Ошибка загрузки категорий",
                                      "Данный файл не содержит категорий карт.", QMessageBox.Ok)
         except FileNotFoundError:
             pass
@@ -719,7 +719,7 @@ class SecondWindow(QWidget):
             del self.our_designations[self.our_button.text()]
 
 
-class ThirdWindow(QWidget):
+class ChangeColorForCategory(QWidget):
     def __init__(self):
         super().__init__()
 
@@ -778,11 +778,11 @@ class ThirdWindow(QWidget):
                                                           ;;Все файлы (*)')[0]
         try:
             if '.csv' not in self.colors_filename:
-                QMessageBox.critical(self, "Ошибка загрузки цветов категорий", 
+                QMessageBox.critical(self, "Ошибка загрузки цветов категорий",
                                      "Данный файл не содержит цветов категорий.", QMessageBox.Ok)
                 raise FileNotFoundError
             elif self.colors_filename[len(self.colors_filename)::] != '.csv':
-                QMessageBox.critical(self, "Ошибка загрузки цветов категорий", 
+                QMessageBox.critical(self, "Ошибка загрузки цветов категорий",
                                      "Данный файл не содержит цветов категорий.", QMessageBox.Ok)
                 raise FileNotFoundError
             self.our_colors = Table(DIGNITIES).open_table(
@@ -790,7 +790,7 @@ class ThirdWindow(QWidget):
                                                           self.colors_filename
                                                          )[1]
             if self.our_colors is None:
-                QMessageBox.critical(self, "Ошибка загрузки цветов категорий", 
+                QMessageBox.critical(self, "Ошибка загрузки цветов категорий",
                                      "Данный файл не содержит цветов категорий.", QMessageBox.Ok)
                 raise FileNotFoundError
             try:
@@ -799,7 +799,7 @@ class ThirdWindow(QWidget):
                     raise KeyError
                 self.create_table_of_colors(10, 20)
             except KeyError:
-                QMessageBox.critical(self, "Ошибка загрузки цветов категорий", 
+                QMessageBox.critical(self, "Ошибка загрузки цветов категорий",
                                      "Данный файл не содержит цветов категорий.", QMessageBox.Ok)
         except FileNotFoundError:
             pass
@@ -865,7 +865,7 @@ class ThirdWindow(QWidget):
             os.remove(f'{self.index}.jpg')
 
 
-class FourthWindow(QDialog):
+class MapSelection(QDialog):
     def __init__(self):
         super().__init__()
 
@@ -901,7 +901,7 @@ class FourthWindow(QDialog):
                 self.close()
 
 
-class FifthWindow(QWidget):
+class ShowStatistics(QWidget):
     def __init__(self):
         super().__init__()
 
